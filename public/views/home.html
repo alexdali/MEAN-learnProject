@@ -1,0 +1,93 @@
+<div class="block">
+	<div class='block-title'>
+			Mои публикации
+		</div>
+		<div class='grid'>
+			
+			<div class='grid-item' ng-repeat="blog in vm.allblogs" ui-sref='singlePost({id:blog._id})'>
+				
+				<div class='grid-item--author' ui-sref='profile({user_id: blog.author._id})'  ng-click='$event.stopPropagation()'>
+					<img src="{{blog.author.ava}}">
+
+					<span class='grid-item--subtitle' ng-bind="blog.author.first_name + ' ' + blog.author.last_name"></span>
+
+					
+				</div>
+
+				<span class='grid-item--img' >
+					<img ng-src="{{blog.img}}">
+				</span>
+				<span class='grid-item--title' ng-bind="blog.title"></span>
+				<span class='grid-item--subtitle' ng-bind="blog.description | limitTo:5"></span>
+				<span class='grid-item--subtitle' ng-bind="blog.date | date:'hh:mm:ss, dd MMM yyyy'"></span>
+				
+
+			</div>
+
+		</div>
+
+		<div class="pagination">
+			<span class="pagination-arrow left"> <img src="images/arrow.svg" ng-click="vm.prevPage()"></span>
+			<span ng-class="{'active': vm.currentPage==$index}" 
+			ng-repeat="i in vm.numberOfPages track by $index" 
+			ng-bind="$index + 1" 
+			ng-click="vm.openPage($index)"></span>
+
+			<span class="pagination-arrow"> <img src="images/arrow.svg" ng-click="vm.nextPage()"></span>
+
+		</div>
+
+		<div class="pagination">
+				<span class="pagination-arrow left"> <img src="images/arrow.svg" ng-click="vm.prevPage()"></span>
+<!-- 
+				<span ng-class="{'active': vm.currentPage==$index}" 
+				ng-repeat="i in vm.numberOfPages track by $index" 
+				ng-bind="$index + 1" 
+				ng-click="vm.openPage($index)"></span> -->
+
+
+				<div ng-if='vm.currentPage<=2'>
+					<span ng-class="{'active': vm.currentPage==$index}" 
+						ng-repeat='i in [1,2,3,4,5] track by $index' ng-bind='i' 
+						ng-click="vm.openPage($index)">
+					</span>
+					<span>...</span>
+					<span ng-bind='vm.numberOfPages.length' 
+					ng-click="vm.openPage(vm.numberOfPages.length -1)"></span>
+				</div>
+
+
+				<div ng-if='vm.currentPage>2&&vm.currentPage<(vm.numberOfPages.length-3)'>
+					<span ng-click="vm.openPage(0)">1</span>
+					<span>...</span>
+
+					<span ng-class="{'active': vm.currentPage==i}" 
+					ng-repeat='i in [vm.currentPage-2,vm.currentPage-1,vm.currentPage,vm.currentPage+1,vm.currentPage+2] track by $index' 
+					ng-bind='i + 1' 
+					ng-click="vm.openPage(i)">
+					</span>
+
+					<span>...</span>
+					<span ng-bind='vm.numberOfPages.length' 
+					ng-click="vm.openPage(vm.numberOfPages.length -1)"></span>
+				</div>
+
+
+				
+				<div ng-if='vm.currentPage>=(vm.numberOfPages.length-3)'>
+					<span ng-click="vm.openPage(0)">1</span>
+					<span>...</span>
+
+					<span ng-class="{'active': vm.currentPage==i}" 
+					ng-repeat='i in [vm.numberOfPages.length-5,vm.numberOfPages.length-4,vm.numberOfPages.length-3,vm.numberOfPages.length-2,vm.numberOfPages.length-1] track by $index' 
+					ng-bind='i + 1' 
+					ng-click="vm.openPage(i)">
+					</span>
+				</div>
+
+
+	
+				<span class="pagination-arrow"> <img src="images/arrow.svg" ng-click="vm.nextPage()"></span>
+	
+			</div>
+</div>

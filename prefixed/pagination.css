@@ -1,0 +1,41 @@
+.pagination {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    cursor: pointer;
+    margin: 20px;
+}
+
+.pagination span {
+    display: block;
+    padding: 10px;
+    margin: 0 2px;
+    font-size: 18px;
+    border-radius: 8px;
+}
+
+.pagination span.active {
+    background-color: #4c71f0;
+    color: #fff;
+}
+
+.pagination-arrow {
+    display: -ms-flexbox!important;
+    display: flex!important;
+    -ms-flex-align: center;
+        align-items: center;
+}
+
+.pagination-arrow img {
+    height: 18px;
+}
+
+.pagination-arrow.left {
+    transform: rotate(180deg);
+}
+
+.pagination div {
+    display: -ms-flexbox;
+    display: flex;
+}

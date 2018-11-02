@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html ng-app="ppp">
+<head>
+	<base href="/">
+	<title>Blog</title>
+	<meta name = "description" content="do 200 symbols">
+	<meta charset ="utf-8">
+	<link rel="stylesheet" type="text/css" href="style/all.css">
+	<!-- <link rel="stylesheet" type="text/css" href="main.min.css"> -->
+	<link rel="icon" type="image/png" href="images/favicon.png"/>
+
+	<meta name='viewport' content='width=device-width', initial-scale=1.0'
+</head>
+<body>
+
+<header class='header' ng-controller='HeaderCtrl as vm'>
+
+	<div class='header-logo'>
+		<img src="images/logo.svg">
+	</div>
+		
+	<div class='header-search'>
+		<div>
+			<input class="input-search" ng-model='vm.search' ng-keyup='vm.keyUp()' type="text" name="">
+			<img class="input-search--icon" src="images/search.svg">
+		</div>
+	</div>
+
+	<div ng-show='vm.searchResult&&vm.searchResult.length>0' class='searchResult'>
+		<div ng-repeat='blog in vm.searchResult track by $index' ng-bind='blog.title' 
+			ng-click='vm.goToBlog(blog._id)'>
+		</div>
+	</div>
+		
+	<div class='header-nav' ng-if='vm.user'>
+		<ul>
+			<li ui-sref="home">
+				Главная
+			</li>
+			<li ui-sref="profile({user_id: vm.user._id})">
+				Профиль
+			</li>
+		</ul>
+	</div>
+	<div class='header-ava' >
+		<img ng-if='!vm.user' src="images/ava.svg" ng-click='vm.showLogin=true'>
+		<img ng-if='vm.user' ng-src="{{vm.user.ava}}">
+		<div ng-if='vm.user' class='' ng-click='vm.logout()'>
+			logout
+		</div>
+	</div>
+
+	<div class="header-menu">
+		<img src="images/menu.svg">
+	</div>
+
+	<div class="modal" ng-if='vm.showLogin'>
+		<div class="modal-backdrop" ng-click='vm.showLogin=false'></div>
+		
+		<div class="modal-inner">
+			<div class='modal-close' ng-click='vm.showLogin=false'>
+				<img src="images/close.svg">
+			</div>
+			<div class="modal-title">
+				Войти в систему
+			</div>
+
+			<div class="modal-form">
+				<form ng-submit='vm.login()'>
+					<div class="form-field">
+						<input ng-class='{"is-error": vm.errorsLogin.email}' ng-model='vm.emailLogin' class='input' type="text"  placeholder="Введите email">	
+						<div ng-if='vm.errorsLogin.email' class="form-field--errorText" ng-bind='vm.errorsLogin.email'></div>	
+					</div>
+					<div class="form-field">
+						<input ng-class='{"is-error": vm.errorsLogin.password}' ng-model='vm.passwordLogin' class='input' type="password"  placeholder="Введите пароль">
+						<div ng-if='vm.errorsLogin.password' class="form-field--errorText" ng-bind='vm.errorsLogin.password'></div>
+					</div>
+					<div class="form-field">
+						<button type='submit' class='button success'>Войти</button>	
+					</div>
+					<div class='modal-link' ng-click='vm.showLogin=false;vm.showSignup=true'>
+						Создать аккаунт
+					</div>
+				</form>				
+			</div>
+
+		</div>
+	</div>
+
+
+	<div class="modal" ng-if='vm.showSignup'>
+		<div class="modal-backdrop" ng-click='vm.showSignup=false;vm.errors=false'></div>
+		
+		<div class="modal-inner">
+			<div class='modal-close' ng-click='vm.showSignup=false;vm.errors=false'>
+				<img src="images/close.svg">
+			</div>
+			<div class="modal-title">
+				Создать аккаунт
+			</div>
+
+			<div class="modal-form">
+				<form novalidate ng-submit='vm.Signup()'>
+					<div class="form-field">
+						<input ng-class='{"is-error": vm.errors.email}' ng-model='vm.email' class='input' type="text" placeholder="Введите email">
+						<div ng-if='vm.errors.email' class="form-field--errorText" ng-bind='vm.errors.email'></div>	
+					</div>
+					<div class="form-field">
+						<input ng-class='{"is-error": vm.errors.first_name}' ng-model='vm.first_name' class='input' type="text" placeholder="Введите имя">
+						<div ng-if='vm.errors.first_name' class="form-field--errorText" ng-bind='vm.errors.first_name'></div>
+					</div>
+					<div class="form-field">
+						<input ng-class='{"is-error": vm.errors.last_name}' ng-model='vm.last_name' class='input' type="text" placeholder="Введите фамилию">
+						<div ng-if='vm.errors.last_name' class="form-field--errorText" ng-bind='vm.errors.last_name'></div>
+					</div>
+					<div class="form-field">
+						<input ng-class='{"is-error": vm.errors.password}' ng-model='vm.password' class='input' type="password" placeholder="Введите пароль">
+						<div ng-if='vm.errors.password' class="form-field--errorText" ng-bind='vm.errors.password'></div>
+					</div>
+					<div class="form-field">
+						<input ng-class='{"is-error": vm.errors.password2}' ng-model='vm.password2' class='input' type="password" placeholder="Повторите пароль">
+						<div ng-if='vm.errors.password2' class="form-field--errorText" ng-bind='vm.errors.password2'></div>
+					</div>
+
+					<div class="form-field">
+						<button type='submit' class='button success'>Регистрация</button>	
+					</div>
+				</form>				
+			</div>
+
+		</div>
+	</div>
+
+</header>
+
+
+	
+
+<main class='main' ui-view>
+
+
+</main>
+
+
+
+	<!-- <section ng-controller="ProfileCtrl as vm">
+
+
+		<input type="text" ng-model="vm.name">
+
+		<p><span> {{vm.name}} </span></p>
+		<p ng-bind="vm.name"></p>
+
+		<button ng-click="vm.send()"></button>
+
+	
+
+		<form>
+			<input type="text" ng-model="vm.title" placeholder="Введите заголовок">
+			<input type="text" ng-model="vm.description" placeholder="Введите описание">
+			<button ng-click="vm.save()">Save</button>
+		</form>
+
+		<div ng-repeat="blog in vm.blogs">
+			<h3 ng-bind="blog.title"></h3>
+			<p ng-bind="blog.description"</p>
+			<hr>
+		</div>
+
+	</section> -->
+
+<!-- 	<script type="text/javascript">
+		// Check for the various File API support.
+		if (window.File && window.FileReader && window.FileList && window.Blob) {
+  			// Great success! All the File APIs are supported.
+  			console.log('Great success! All the File APIs are supported');
+		} else {
+  			alert('The File APIs are not fully supported in this browser.');
+		}
+
+	</script> -->
+
+	<script src="js/vendor/ng.min.js"></script>
+	<script src="js/vendor/ng-route.min.js"></script>
+	<script src="app.js"></script>
+	<script src="js/directives/directive.custom-on-change.js"></script>
+	<script src="js/directives/directive.scrolly.js"></script>
+	<script src="js/directives/directive.decode-scroll.js"></script>
+	<script src="js/controllers/controller.profile.js"></script>
+	<script src="js/controllers/controller.singlepost.js"></script>
+	<script src="js/controllers/controller.header.js"></script>
+	<script src="js/controllers/controller.home.js"></script>
+	<script src="js/controllers/controller.scroll.js"></script>
+	<script src="js/controllers/controller.scroll2.js"></script>
+
+	<!-- <script type='text/javascript' src="app.min.js"></script>	
+	<script type='text/javascript' src="templates.js"></script>	 -->
+
+</body>
+</html>

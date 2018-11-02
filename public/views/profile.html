@@ -1,0 +1,162 @@
+	<div class="modal" ng-if='vm.editModal'>
+		<div class="modal-backdrop" ng-click='vm.openEditModal()'></div>
+		<!-- <div class="modal-backdrop" ng-click='vm.openEditModal=false'></div> -->
+		<div class="modal-inner">
+			<div class='modal-close' ng-click='vm.openEditModal()'>
+				<img src="images/close.svg">
+			</div>
+			<div class="modal-title">
+				Редактирование поста
+			</div>
+
+			<div class="modal-form">
+				<form ng-submit='vm.updateBlog()'>
+				<div class="form-field">
+					<input ng-model='vm.editBlog.title' class='input' type="text" name="">	
+				</div>
+				<div class="form-field">
+					<textarea ng-model='vm.editBlog.description'  class='input textarea'></textarea>	
+				</div>
+
+				<div class="form-field form-field--file">
+					<input class='input-file' type="file" custom-on-change="vm.imgEditBlog">	
+					<span>Выберите файл</span>
+					<img src="images/file.svg">
+				</div>
+
+				<div class="form-field">
+				<!-- 	<img style='width: 100px;' ng-src='{{vm.editBlog.img}}'> -->
+					<img style='width: 100px;' ng-src='{{vm.imgPreload}}'>
+				</div>
+
+				<div class="form-field">
+					<button type='submit' class='button success'>Сохранить</button>	
+				</div>
+				</form>
+				
+			</div>
+			<!-- <div class="modal-form">
+				<form ng-submit='vm.updateBlog()'>
+				<div class="form-field">
+					<input ng-model='vm.editBlog.title' class='input' type="text" name="">	
+				</div>
+				<div class="form-field">
+					<textarea ng-model='vm.editBlog.description'  class='input textarea'></textarea>	
+				</div>
+				<div class="form-field">
+					<button type='submit' class='button success'>Сохранить</button>	
+				</div>
+				</form>
+				
+			</div> -->
+
+		</div>
+	</div>
+
+	<div class="modal" ng-if='vm.AddModal'>
+		<div class="modal-backdrop" ng-click='vm.closeAddModal()'></div>
+		<!-- <div class="modal-backdrop" ng-click='vm.closeAddModal=false'></div> -->
+		
+		<div class="modal-inner">
+			<div class='modal-close' ng-click='vm.closeAddModal()'>
+				<img src="images/close.svg">
+			</div>
+			<div class="modal-title">
+				Новый пост
+			</div>
+
+			<div class="modal-form">
+				<form ng-submit='vm.save()'>
+				<div class="form-field">
+					<input ng-model='vm.title' class='input' type="text" name="">	
+				</div>
+				<div class="form-field">
+					<textarea ng-model='vm.description'  class='input textarea'></textarea>	
+				</div>
+
+				<div class="form-field form-field--file">
+					<input class='input-file' type="file" custom-on-change="vm.readURL">	
+					<span>Выберите файл</span>
+					<img src="images/file.svg">
+				</div>
+
+				<div class="form-field">
+					<img style='width: 100px;' ng-src='{{vm.imgPreload}}'>
+				</div>
+
+				<div class="form-field">
+					<button type='submit' class='button success'>Сохранить</button>	
+				</div>
+				</form>
+				
+			</div>
+
+		</div>
+	</div>
+
+	<div class='block small'>
+		<div class="user">
+			<div class="foto">
+				<img ng-src="{{vm.author.ava}}">
+			</div>
+			<div class="description">
+				<ul>
+			<li>
+				<h3 ng-bind="vm.author.first_name + ' ' + vm.author.last_name"></h3>
+			</li>
+			<li>
+				Microsoft Founder
+			</li>
+			<li>
+				Greater Seattle Area
+			</li>
+		</ul>
+			</div>
+			<div class="buttons">
+				<div class="follow">
+					<button></button>
+				</div>
+				<div class="connect">
+					<button></button>
+				</div>
+			</div>
+		</div>
+		<div class="user link">
+		<ul>
+			<li>
+				www.lincedin.com
+			</li>
+			<li>
+				www.site.com {{vm.currentUser._id}}
+			</li>
+		</ul>
+		</div>
+
+	</div>
+	<div class='block lg'>
+		<div class='block-title' ng-if="vm.currentUser._id==vm.author._id">
+			Mои публикации <input type="text" ng-model='vm.searchBlog' name="">
+
+			<button class="button success righted" ng-click='vm.openAddModal()'>Добавить пост</button>
+		</div>
+		<div class='grid'>
+			
+			<div class='grid-item' ng-repeat="blog in vm.blogs | filter: vm.searchBlog" >
+				<div class="grid-editor" ng-if="vm.currentUser._id==vm.author._id">
+					<span ng-click='vm.openEditModal(blog)'>
+						<img src="images/edit.svg">
+					</span>
+					<span ng-click='vm.deleteBlog(blog)'>
+						<img src="images/trash.svg">
+					</span>
+				</div>
+				<span class='grid-item--img' ui-sref='singlePost({id:blog._id})'>
+					<img ng-src="{{blog.img}}">
+				</span>
+				<span class='grid-item--title' ng-bind="blog.title"></span>
+				<span class='grid-item--subtitle' ng-bind="blog.description"></span>
+			</div>
+
+			
+		</div>
+	</div>

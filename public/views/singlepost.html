@@ -1,0 +1,93 @@
+<div class='block block-centered'>
+	<img class='post-img' ng-src="{{vm.blog.img}}">
+	<h1 class='post-title' ng-bind="vm.blog.title"></h1>
+	<p class='post-date'>Published on {{vm.blog.date | date}}</p>
+
+	<div class="post-info">
+
+		<div class="post-author">
+				<div class="post-author--img">
+						<img ng-src="{{vm.blog.author.ava}}">
+				</div>
+				<div class="post-author--content">
+					<h2 ng-bind="vm.blog.author.first_name 
+									+ ' ' + 
+									vm.blog.author.last_name"></h2>
+					<a ui-sref='profile({user_id: vm.blog.author._id})'> 21 постов</a>	
+				</div>
+		</div>
+
+		<div class="post-icons">
+
+			<div class="post-icons--item">
+				<div class="post-icons--img" ng-click='vm.likeIt()'>
+					<!-- <img src="images/like.svg"> -->
+					<img ng-if='!vm.likeExist' src="images/like.svg">  
+					<img ng-if='vm.likeExist' src="images/like_self.svg"> 
+				</div>
+				{{vm.like}}
+			</div>
+
+			<div class="post-icons--item">
+				<div class="post-icons--img">
+					<img src="images/comment.svg">
+				</div>
+				{{vm.comments.length}}
+			</div>
+
+
+		</div>
+	
+	</div>
+
+	<p class="post-desc" ng-bind="vm.blog.description"></p>
+
+	<div class="comment-block">
+
+		<h2 class="comment-title">{{vm.comments.length}} {{vm.numberOfCommentsText}}</h2>
+
+		<div class="comments">
+
+			<div class="comments-item">
+				<div class="comments-item--img">
+					<img src="images/ava.svg">
+				</div>
+
+				<div class="comments-item--content">
+					<form ng-submit='vm.saveComment()'>
+						<input class="input" placeholder="Введите комментарий" ng-model='vm.text'>
+					</form>
+				</div>
+			</div>
+
+
+			<div class="comments-item" ng-repeat='comment in vm.comments track by $index'>
+
+					<div class="comments-item--delete" 
+						ng-if='vm.blog.author._id==vm.currentUser._id || comment.user._id==vm.currentUser._id' 
+						ng-click='vm.deleteComment(comment)'>
+						<img src="images/closeblack.svg">
+					</div>
+
+					<div class="comments-item--img">
+						<img ng-src="{{comment.user.ava}}">
+					</div>
+	
+					<div class="comments-item--content">
+						<h3 ng-bind="comment.user.first_name + 
+							' ' + 
+							comment.user.last_name"></h3>
+						<p ng-bind="comment.text"></p>
+						<span ng-bind="comment.date | date"></span>
+
+					</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+</div>

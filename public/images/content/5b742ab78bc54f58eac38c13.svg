@@ -1,0 +1,7 @@
+angular
+	.module('freelancer')
+    .factory('Socket', function (socketFactory) {
+        return socketFactory({
+            ioSocket: io.connect('worqaholiq.kz')
+        });
+    });

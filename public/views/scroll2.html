@@ -1,0 +1,31 @@
+<div class="block  block-centered">
+	<div class='block-title'>
+			Mои публикации
+		</div>
+		<div class='grid' style='height: 600px; overflow: auto;'
+		decode-scroll='vm.showMore()'>
+			
+			<div class='grid-item grid-item--big' ng-repeat="blog in vm.allblogs" ui-sref='singlePost({id:blog._id})'>
+				
+				<div class='grid-item--author' ui-sref='profile({user_id: blog.author._id})'  ng-click='$event.stopPropagation()'>
+					<img src="{{blog.author.ava}}">
+
+					<span class='grid-item--subtitle' ng-bind="blog.author.first_name + ' ' + blog.author.last_name"></span>
+
+					
+				</div>
+
+				<span class='grid-item--img' >
+					<img ng-src="{{blog.img}}">
+				</span>
+				<span class='grid-item--title' ng-bind="blog.title"></span>
+				<span class='grid-item--subtitle' ng-bind="blog.description | limitTo:5"></span>
+				<span class='grid-item--subtitle' ng-bind="blog.date | date:'hh:mm:ss, dd MMM yyyy'"></span>
+				
+
+			</div>
+
+		</div>
+
+		
+</div>
